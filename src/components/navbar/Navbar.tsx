@@ -44,7 +44,6 @@ const Navbar = () => {
 
     const handleLogout = () => {
       setUsername("");
-      localStorage.removeItem("user");
       localStorage.removeItem("authToken");
       window.location.href = "/login";
     };
@@ -76,7 +75,7 @@ const Navbar = () => {
             {showDropdown && (
               <div className="dropdown-menu">
                 <a href="/profile">Perfil</a>
-                <a href="/login">Cerrar sesión</a>
+                <a onClick={handleLogout}>Cerrar sesión</a>
               </div>
             )}
           </div>
