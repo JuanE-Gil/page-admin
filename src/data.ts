@@ -1,118 +1,118 @@
 export const menu = [
     {
       id: 1,
-      title: "main",
+      title: "inicio",
       listItems: [
         {
           id: 1,
-          title: "Homepage",
+          title: "Principal",
           url: "/",
           icon: "home.svg",
         },
         {
           id: 2,
-          title: "Profile",
-          url: "/users/1",
+          title: "Perfil",
+          url: "/profile",
           icon: "profile.svg",
         },
       ],
     },
     {
       id: 2,
-      title: "lists",
+      title: "listas",
       listItems: [
         {
           id: 1,
-          title: "Users",
+          title: "Usuarios",
           url: "/users",
           icon: "user.svg",
         },
         {
           id: 2,
-          title: "Products",
-          url: "/products",
+          title: "Vehiculos",
+          url: "/vehicles",
           icon: "product.svg",
         },
         {
           id: 3,
-          title: "Orders",
-          url: "/orders",
+          title: "Categorias",
+          url: "/categories",
           icon: "order.svg",
         },
         {
           id: 4,
-          title: "Posts",
-          url: "/posts",
+          title: "Ventas",
+          url: "/sales",
           icon: "post2.svg",
         },
       ],
     },
-    {
-      id: 3,
-      title: "general",
-      listItems: [
-        {
-          id: 1,
-          title: "Elements",
-          url: "/",
-          icon: "element.svg",
-        },
-        {
-          id: 2,
-          title: "Notes",
-          url: "/",
-          icon: "note.svg",
-        },
-        {
-          id: 3,
-          title: "Forms",
-          url: "/",
-          icon: "form.svg",
-        },
-        {
-          id: 4,
-          title: "Calendar",
-          url: "/",
-          icon: "calendar.svg",
-        },
-      ],
-    },
-    {
-      id: 4,
-      title: "Maintenance",
-      listItems: [
-        {
-          id: 1,
-          title: "Settings",
-          url: "/",
-          icon: "setting.svg",
-        },
-        {
-          id: 2,
-          title: "Backups",
-          url: "/",
-          icon: "backup.svg",
-        },
-      ],
-    },
-    {
-      id: 5,
-      title: "analytics",
-      listItems: [
-        {
-          id: 1,
-          title: "Charts",
-          url: "/",
-          icon: "chart.svg",
-        },
-        {
-          id: 2,
-          title: "Logs",
-          url: "/",
-          icon: "log.svg",
-        },
-      ],
-    },
+    // {
+    //   id: 3,
+    //   title: "general",
+    //   listItems: [
+    //     {
+    //       id: 1,
+    //       title: "Elementos",
+    //       url: "/",
+    //       icon: "element.svg",
+    //     },
+    //     {
+    //       id: 2,
+    //       title: "Notas",
+    //       url: "/",
+    //       icon: "note.svg",
+    //     },
+    //     {
+    //       id: 3,
+    //       title: "Formularios",
+    //       url: "/",
+    //       icon: "form.svg",
+    //     },
+    //     {
+    //       id: 4,
+    //       title: "Calendario",
+    //       url: "/",
+    //       icon: "calendar.svg",
+    //     },
+    //   ],
+    // },
+    // {
+    //   id: 4,
+    //   title: "Mantenimiento",
+    //   listItems: [
+    //     {
+    //       id: 1,
+    //       title: "Ajustes",
+    //       url: "/",
+    //       icon: "setting.svg",
+    //     },
+    //     {
+    //       id: 2,
+    //       title: "Backups",
+    //       url: "/",
+    //       icon: "backup.svg",
+    //     },
+    //   ],
+    // },
+    // {
+    //   id: 5,
+    //   title: "Analíticas",
+    //   listItems: [
+    //     {
+    //       id: 1,
+    //       title: "Graficas",
+    //       url: "/",
+    //       icon: "chart.svg",
+    //     },
+    //     {
+    //       id: 2,
+    //       title: "Logs",
+    //       url: "/",
+    //       icon: "log.svg",
+    //     },
+    //   ],
+    // },
   ];
 
   export const topDealUsers = [
@@ -170,7 +170,7 @@ export const menu = [
   export const chartBoxUser = {
     color: "#8884d8",
     icon: "/userIcon.svg",
-    title: "Total Users",
+    title: "Total de usuarios",
     number: "11.238",
     dataKey: "users",
     percentage: 45,
@@ -188,25 +188,25 @@ export const menu = [
   export const chartBoxProduct = {
     color: "skyblue",
     icon: "/productIcon.svg",
-    title: "Total Products",
+    title: "Total de Vehiculos",
     number: "238",
     dataKey: "products",
     percentage: 21,
     chartData: [
-      { name: "Sun", products: 400 },
-      { name: "Mon", products: 600 },
-      { name: "Tue", products: 500 },
-      { name: "Wed", products: 700 },
-      { name: "Thu", products: 400 },
-      { name: "Fri", products: 500 },
-      { name: "Sat", products: 450 },
+      { name: "Sun", products: 34 },
+      { name: "Mon", products: 28 },
+      { name: "Tue", products: 48 },
+      { name: "Wed", products: 23 },
+      { name: "Thu", products: 34 },
+      { name: "Fri", products: 38 },
+      { name: "Sat", products: 25 },
     ],
   };
   export const chartBoxRevenue = {
     color: "teal",
     icon: "/revenueIcon.svg",
-    title: "Total Revenue",
-    number: "$56.432",
+    title: "Total de Ganancias",
+    number: "$56.43",
     dataKey: "revenue",
     percentage: -12,
     chartData: [
@@ -238,7 +238,7 @@ export const menu = [
   };
 
   export const barChartBoxRevenue = {
-    title: "Profit Earned",
+    title: "Beneficio obtenido",
     color: "#8884d8",
     dataKey: "profit",
     chartData: [
@@ -274,7 +274,7 @@ export const menu = [
   };
 
   export const barChartBoxVisit = {
-    title: "Total Visit",
+    title: "Total de Visitas",
     color: "#FF8042",
     dataKey: "visit",
     chartData: [
