@@ -20,7 +20,7 @@ const Add = (props: Props) => {
     <div className="add">
       <div className="modal">
         <span className="close" onClick={() => props.setOpen(false)} >X</span>
-        <h1>Add new {props.slug}</h1>
+        <h1>Agregar Nuevo {props.slug}</h1>
         <form onSubmit={handleSubmit}>
           {props.columns
             .filter((item) => item.field !== "id" && item.field !== "img")
@@ -30,7 +30,7 @@ const Add = (props: Props) => {
                 <input type={column.type} placeholder={column.field} />
               </div>
             ))}
-            <button>Send</button>
+            <button>Enviar</button>
         </form>
       </div>
     </div>

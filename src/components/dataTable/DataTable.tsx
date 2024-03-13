@@ -10,6 +10,7 @@ type Props = {
 
 const DataTable = (props: Props) => {
 
+
     const handleDelete = (id:number) => {
         // delete the item
         // axios.delete(`/api/${slug}/id`)
@@ -18,7 +19,7 @@ const DataTable = (props: Props) => {
 
   const actionColumn: GridColDef = {
     field: "action",
-    headerName: "Action",
+    headerName: "Opciones",
     width: 200,
     renderCell: (params) => {
       return (
@@ -43,7 +44,7 @@ const DataTable = (props: Props) => {
         initialState={{
           pagination: {
             paginationModel: {
-              pageSize: 10,
+              pageSize: 15,
             },
           },
         }}
@@ -60,7 +61,6 @@ const DataTable = (props: Props) => {
         disableColumnFilter
         disableColumnSelector
         disableDensitySelector
-        density="standard"
       />
     </div>
   );
