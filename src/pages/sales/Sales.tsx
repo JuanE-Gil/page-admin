@@ -19,7 +19,7 @@ const Sales = () => {
         setData(
           saleData.map((sale) => ({
             id: sale.id_venta,
-            car: sale.idauto,
+            car: sale.idauto.modelo,
             user: sale.idusuario.nombre,
             creation_date: sale.fecha_creacion,
             price: sale.precio_auto,
@@ -43,7 +43,7 @@ const Sales = () => {
       field: "car",
       type: "string",
       headerName: "Auto",
-      width: 150,
+      width: 200,
     },
     {
       field: "user",
@@ -53,20 +53,34 @@ const Sales = () => {
     },
     {
       field: "creation_date",
-      type: "string",
+      type: "date",
       headerName: "Fecha Creacion",
       width: 150,
+      valueFormatter: (params) => {
+        const dateFormatter = new Intl.DateTimeFormat('es-PE', {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric',
+        });
+
+        return dateFormatter.format(new Date(params.value));
+      },
     },
     {
       field: "price",
-      type: "string",
+      type: "number",
       headerName: "Precio",
+      headerAlign: "center",
       width: 150,
+      valueFormatter: (params) => {
+        const price = parseFloat(params.value);
+        return `${price.toLocaleString('es-PE', { style: 'currency', currency: 'PEN', minimumFractionDigits: 2 })}`;
+      },
     },
     {
       field: "completion_date",
-      type: "string",
-      headerName: "Fecha Finalizacion",
+      type: "boolean",
+      headerName: "Vendido",
       width: 200,
     },
   ];

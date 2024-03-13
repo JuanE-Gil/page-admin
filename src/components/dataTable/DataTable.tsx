@@ -44,7 +44,7 @@ const DataTable = (props: Props) => {
         initialState={{
           pagination: {
             paginationModel: {
-              pageSize: 15,
+              pageSize: 10,
             },
           },
         }}

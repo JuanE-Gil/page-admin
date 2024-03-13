@@ -82,7 +82,7 @@ const Users = () => {
     },
     {
       field: "email",
-      type: "string",
+      type: "email",
       headerName: "Email",
       width: 200,
     },
@@ -90,6 +90,7 @@ const Users = () => {
       field: "phone",
       type: "string",
       headerName: "Celular",
+      headerAlign: "center",
       width: 150,
     },
     {
