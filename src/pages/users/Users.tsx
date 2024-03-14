@@ -2,8 +2,8 @@ import { GridColDef } from "@mui/x-data-grid";
 import DataTable from "../../components/dataTable/DataTable";
 import "./users.scss";
 import { useEffect, useState } from "react";
-import Add from "../../components/add/Add";
-import axiosInstance from "../../axiosConfig";
+import {get} from "../../axiosConfig";
+import AddUser from "../../components/addUser/AddUser";
 
 const Users = () => {
   const [open, setOpen] = useState(false);
@@ -14,8 +14,8 @@ const Users = () => {
     const fetchData = async () => {
       setIsLoading(true);
       try {
-        const response = await axiosInstance.get("/usuario");
-        const userData = response.data.data;
+        const response = await get("/usuario");
+        const userData = response.data;
         setData(
           userData.map((user) => ({
             id: user.id_usuario,
@@ -31,6 +31,7 @@ const Users = () => {
             state: user.estado,
           }))
         );
+        console.log(userData);
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -120,11 +121,11 @@ const Users = () => {
             <img src="/1.png" alt="" />
           </div>
         ) : data.length > 0 ? (
-          <DataTable slug="users" columns={columns} rows={data} />
+          <DataTable slug="usuario" columns={columns} rows={data} />
         ) : (
           <p>No se han encontrado usuarios disponibles.</p>
         )}
-        {open && <Add slug="usuario" columns={columns} setOpen={setOpen} />}
+        {open && <AddUser setOpen={setOpen} />}
       </div>
     </>
   );

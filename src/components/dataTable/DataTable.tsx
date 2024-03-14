@@ -1,6 +1,8 @@
 import { DataGrid, GridColDef, GridToolbar } from "@mui/x-data-grid";
 import "./dataTable.scss";
 import { Link } from "react-router-dom";
+import { del } from "../../axiosConfig";
+import { useEffect, useState } from "react";
 
 type Props = {
   columns: GridColDef[];
@@ -10,12 +12,18 @@ type Props = {
 
 const DataTable = (props: Props) => {
 
-
-    const handleDelete = (id:number) => {
-        // delete the item
-        // axios.delete(`/api/${slug}/id`)
-        console.log(id + " has been deleted!")
+  const handleDelete = async (id: number) => {
+    try {
+      const response = await del(`/${props.slug}/Eliminar/Admin?id=${id}`);
+      console.log(id + " has been deleted!");
+      console.log(response);
+      console.log(response.status);
+      console.log(response.data.mensaje);
+      window.location.reload();
+    } catch (error) {
+      console.error("Error deleting item:", error);
     }
+  };
 
   const actionColumn: GridColDef = {
     field: "action",
@@ -27,7 +35,7 @@ const DataTable = (props: Props) => {
           <Link to={`/${props.slug}/${params.row.id}`}>
             <img src="/view.svg" alt="" />
           </Link>
-          <div className="delete" onClick={()=> handleDelete(params.row.id)}>
+          <div className="delete" onClick={() => handleDelete(params.row.id)}>
             <img src="/delete.svg" alt="" />
           </div>
         </div>

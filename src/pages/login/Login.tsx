@@ -1,31 +1,41 @@
 import { useState } from "react";
-import axiosInstance from "../../axiosConfig";
+import { login } from "../../axiosConfig";
 import tokenUtils from "../../tokenUtils";
 import "./login.scss";
+import axios from "axios";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [contrasena, setContrasena] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
+  const authToken = tokenUtils.getToken();
+  const baseURL = "https://rapiauto.azurewebsites.net";
+
   const handleLogin = async (e) => {
     e.preventDefault();
-
-    const button = e.target.querySelector("button");
-    button.disabled = true;
 
     const request = {
       username,
       contrasena,
     };
 
+    const axiosInstance = axios.create({
+      baseURL,
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+
     try {
       const response = await axiosInstance.post("/login", request);
       tokenUtils.setToken(response.data.token);
       window.location.href = "/";
+      console.log(response);
     } catch (error) {
       if (error.response) {
-        // Check for specific error codes or messages from the server
         const { status, data } = error.response;
         switch (status) {
           case 403:
@@ -41,11 +51,7 @@ const Login = () => {
               "Error al iniciar sesión. Consulte con el administrador."
             );
         }
-      } else {
-        setErrorMessage("Error de red. Verifique su conexión a internet.");
       }
-    } finally {
-      button.disabled = false;
     }
   };
 

@@ -1,6 +1,6 @@
 import "./topBox.scss";
 import { useState, useEffect } from "react";
-import axiosInstance from "../../axiosConfig";
+import { get } from "../../axiosConfig";
 
 const TopBox = () => {
   const [data, setData] = useState([]);
@@ -10,8 +10,8 @@ const TopBox = () => {
     const fetchData = async () => {
       setIsLoading(true);
       try {
-        const response = await axiosInstance.get("/usuario");
-        const userData = response.data.data.slice(0, 7);
+        const response = await get("/usuario");
+        const userData = response.data.slice(0, 7);
         setData(userData);
       } catch (error) {
         console.error("Error fetching data:", error);

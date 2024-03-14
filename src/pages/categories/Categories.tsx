@@ -1,6 +1,6 @@
 import { GridColDef } from "@mui/x-data-grid";
 import { useState, useEffect } from "react";
-import axiosInstance from "../../axiosConfig";
+import {get} from "../../axiosConfig";
 import Add from "../../components/add/Add";
 import DataTable from "../../components/dataTable/DataTable";
 import "./categories.scss"
@@ -14,8 +14,8 @@ const Categories = () => {
     const fetchData = async () => {
       setIsLoading(true);
       try {
-        const response = await axiosInstance.get("/categoria");
-        const catgetoria = response.data.data;
+        const response = await get("/categoria");
+        const catgetoria = response.data;
         setData(
           catgetoria.map((cat) => ({
             id: cat.idCategoria,
@@ -23,10 +23,12 @@ const Categories = () => {
             img: cat.img
           })),
         );
+        console.log(catgetoria);
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
         setIsLoading(false);
+
       }
     };
 
