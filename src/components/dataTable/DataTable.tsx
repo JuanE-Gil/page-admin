@@ -19,7 +19,7 @@ const DataTable = (props: Props) => {
       console.log(response);
       console.log(response.status);
       console.log(response.data.mensaje);
-      window.location.reload();
+      window.location.href = "/users";
     } catch (error) {
       console.error("Error deleting item:", error);
     }
