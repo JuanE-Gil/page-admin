@@ -67,7 +67,7 @@ const AddUser = (props: Props) => {
         console.log("Usuario registrado exitosamente!");
         console.log(response);
         props.setOpen(false);
-        // window.location.replace("/users");
+        window.location.href = "/";
       } else {
         console.log("Error al registrar usuario:", response.data.message);
         console.log(response);
