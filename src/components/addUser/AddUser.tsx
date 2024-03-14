@@ -6,6 +6,7 @@ import { registerUser } from "../../axiosConfig";
 
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { IconButton, InputAdornment } from "@mui/material";
+import { Navigate } from "react-router-dom";
 
 type Props = {
   slug: string;
@@ -66,7 +67,7 @@ const AddUser = (props: Props) => {
         console.log("Usuario registrado exitosamente!");
         console.log(response);
         props.setOpen(false);
-        window.location.href = "users";
+        <Navigate to="/users" replace />
       } else {
         console.log("Error al registrar usuario:", response.data.message);
         console.log(response);

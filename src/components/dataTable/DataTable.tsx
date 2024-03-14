@@ -1,6 +1,6 @@
 import { DataGrid, GridColDef, GridToolbar } from "@mui/x-data-grid";
 import "./dataTable.scss";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { del } from "../../axiosConfig";
 import { useEffect, useState } from "react";
 
@@ -19,7 +19,7 @@ const DataTable = (props: Props) => {
       console.log(response);
       console.log(response.status);
       console.log(response.data.mensaje);
-      window.location.href = "users";
+      <Navigate to="/users" replace />
     } catch (error) {
       console.error("Error deleting item:", error);
     }

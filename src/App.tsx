@@ -6,7 +6,6 @@ import {
   Navigate,
 } from "react-router-dom";
 import Users from "./pages/users/Users";
-import Products from "./pages/vehicles/Vehicles";
 import Navbar from "./components/navbar/Navbar";
 import Footer from "./components/footer/Footer";
 import Menu from "./components/menu/Menu";
