@@ -16,10 +16,11 @@ const DataTable = (props: Props) => {
     try {
       const response = await del(`/${props.slug}/Eliminar/Admin?id=${id}`);
       console.log(id + " has been deleted!");
+      alert(id + " has been deleted!");
       console.log(response);
       console.log(response.status);
       console.log(response.data.mensaje);
-      <Navigate to="/users" replace />
+      window.location.replace("/users");
     } catch (error) {
       console.error("Error deleting item:", error);
     }
