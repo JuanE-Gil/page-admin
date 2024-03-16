@@ -4,9 +4,6 @@ import tokenUtils from "./tokenUtils";
 const authToken = tokenUtils.getToken();
 const baseURL = "https://rapiauto.azurewebsites.net";
 
-// Remove redundant API_URL if not needed
-// const API_URL = baseURL;
-
 interface IHeaders {
   Authorization?: string;
   "Content-Type"?: string;
@@ -59,7 +56,6 @@ const del = async <T>(url: string): Promise<T> => {
   return response;
 };
 
-// Example usage for user registration with form data
 const registerUser = async (formData: FormData): Promise<AxiosResponse> => {
   try {
     const response = await post(
@@ -70,8 +66,7 @@ const registerUser = async (formData: FormData): Promise<AxiosResponse> => {
     return response;
   } catch (error) {
     console.error("Error al registrar usuario:", error);
-    // Handle error and provide user feedback
-    return Promise.reject(error); // Or handle error differently
+    return Promise.reject(error);
   }
 };
 
