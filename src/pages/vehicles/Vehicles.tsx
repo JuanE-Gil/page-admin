@@ -99,8 +99,7 @@ const Vehicles = () => {
   return (
     <div className="vehicles">
       <div className="info">
-        <h1>Autos</h1>
-        <button onClick={() => setOpen(true)}>Agregar Nuevo Auto</button>
+        <h1>Listado de Autos</h1>
       </div>
       {isLoading ? (
         <div className="loading">
