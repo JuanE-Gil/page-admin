@@ -13,7 +13,7 @@ const Navbar = () => {
     const fetchUserData = async () => {
       setIsLoading(true);
       try {
-        const response = await get("/usuario/Buscar/Usuario");
+        const response = await get("/usuario/buscar_usuario");
         const usuario = response.data;
         setUsername(usuario.username);
         setImg(usuario.img);

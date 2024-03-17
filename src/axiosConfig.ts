@@ -59,7 +59,7 @@ const del = async <T>(url: string): Promise<T> => {
 const registerUser = async (formData: FormData): Promise<AxiosResponse> => {
   try {
     const response = await post(
-      "/usuario/Registrar/Usuario",
+      "/usuario/registrar_usuario",
       formData,
       "multipart/form-data"
     );

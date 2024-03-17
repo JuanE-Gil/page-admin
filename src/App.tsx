@@ -30,7 +30,6 @@ const isAuthenticated = () => {
     return false;
   }
 
-  // Obtener el username  del token
   const users = decodedToken.sub;
 
   const allowedRoles = ["ThMonkey02", "Arima"]; // usuarios permitidos para la ruta actual
