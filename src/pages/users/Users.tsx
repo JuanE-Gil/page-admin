@@ -5,6 +5,20 @@ import { useEffect, useState } from "react";
 import {get} from "../../axiosConfig";
 import AddUser from "../../components/addUser/AddUser";
 
+interface UserData {
+  id: number;
+  username: string;
+  img: string;
+  name: string;
+  paternal_lastname: string;
+  maternal_lastname: string;
+  email: string;
+  phone: string;
+  country: string;
+  rol: string;
+  state: boolean;
+}
+
 const Users = () => {
   const [open, setOpen] = useState(false);
   const [data, setData] = useState([]);
@@ -14,24 +28,21 @@ const Users = () => {
     const fetchData = async () => {
       setIsLoading(true);
       try {
-        const response = await get("/listar_solo_usuarios");
-        const userData = response.data;
-        setData(
-          userData.map((user) => ({
-            id: user.id_usuario,
-            username: user.username,
-            img: user.img,
-            name: user.nombre,
-            paternal_lastname: user.apellido_Paterno,
-            maternal_lastname: user.apellido_Materno,
-            email: user.correoElectronico,
-            phone: user.celular,
-            country: user.pais,
-            rol: user.idRol.descripcion,
-            state: user.estado,
-          }))
-        );
-        console.log(userData);
+        const response = await get("/usuario/listar_solo_usuarios");
+        const userData: UserData[] = response.data.map((user) => ({
+          id: user.id_usuario,
+          username: user.username,
+          img: user.img,
+          name: user.nombre,
+          paternal_lastname: user.apellido_Paterno,
+          maternal_lastname: user.apellido_Materno,
+          email: user.correoElectronico,
+          phone: user.celular,
+          country: user.pais,
+          rol: user.idRol.descripcion,
+          state: user.estado,
+        }));
+        setData(userData);
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
