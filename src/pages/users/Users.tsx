@@ -47,7 +47,7 @@ const Users = () => {
     {
       field: "img",
       headerName: "Avatar",
-      width: 90,
+      width: 100,
       renderCell: (params) => {
         return (
           <img
