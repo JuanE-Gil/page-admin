@@ -10,7 +10,7 @@ const TopBox = () => {
     const fetchData = async () => {
       setIsLoading(true);
       try {
-        const response = await get("/usuario");
+        const response = await get("/usuario/listar_solo_usuarios");
         const userData = response.data.slice(0, 7);
         setData(userData);
       } catch (error) {
