@@ -14,7 +14,7 @@ const Users = () => {
     const fetchData = async () => {
       setIsLoading(true);
       try {
-        const response = await get("/usuario");
+        const response = await get("/listar_solo_usuarios");
         const userData = response.data;
         setData(
           userData.map((user) => ({
