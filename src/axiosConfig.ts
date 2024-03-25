@@ -3,6 +3,7 @@ import tokenUtils from "./tokenUtils";
 
 const authToken = tokenUtils.getToken();
 const baseURL = "https://rapiauto.azurewebsites.net";
+// const baseURL = "http://localhost:8890";
 
 interface IHeaders {
   Authorization?: string;
@@ -70,4 +71,4 @@ const registerUser = async (formData: FormData): Promise<AxiosResponse> => {
   }
 };
 
-export { setAuthToken, get, post, put, del, registerUser, login };
+export { setAuthToken, get, post, put, del, registerUser, updateUser };

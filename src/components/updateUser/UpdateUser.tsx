@@ -1,28 +1,47 @@
-import { useState } from "react";
+import { ErrorInfo, useEffect, useState } from "react";
 
-import "./addUser.scss";
+import "./UpdateUser.scss";
 
-import { registerUser } from "../../axiosConfig";
+import { get, post } from "../../axiosConfig";
+import { AxiosError } from "axios";
 
-import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { IconButton, InputAdornment } from "@mui/material";
-import { Navigate } from "react-router-dom";
+type Props = {
+  slug: string;
+  setOpenUpdateUser: React.Dispatch<React.SetStateAction<boolean>>;
+  userId: Number;
+};
 
-
-
-const AddUser = ({ setOpenAddUser, onUserAdded }) => {
-  const [username, setUsername] = useState("")
+const UpdateUser = (props: Props) => {
+  const [username, setUsername] = useState("");
   const [nombre, setNombre] = useState("");
   const [apellido_Paterno, setApellido_Paterno] = useState("");
   const [apellido_Materno, setApellido_Materno] = useState("");
   const [correoElectronico, setCorreoElectronico] = useState("");
-  const [contrasena, setContrasena] = useState("");
   const [celular, setCelular] = useState("");
-  const [idRol, setIdRol] = useState("3");
   const [img, setImg] = useState<null | File>(null);
-  const [showPassword, setShowPassword] = useState(false);
 
-  const createFormData = (idRol: string, img?: File) => {
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response: any = await get(
+          `/usuario/buscar_usuario_id?id=${props.userId}`
+        );
+        setUsername(response.data.username);
+        setNombre(response.data.nombre);
+        setApellido_Paterno(response.data.apellido_Paterno);
+        setApellido_Materno(response.data.apellido_Materno);
+        setCorreoElectronico(response.data.correoElectronico);
+        setCelular(response.data.celular);
+        setImg(response.data.img);
+      } catch (error) {
+        console.error("Error al obtener datos:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const createFormData = (img?: File) => {
     const formData = new FormData();
 
     formData.append("nombre", nombre);
@@ -30,9 +49,7 @@ const AddUser = ({ setOpenAddUser, onUserAdded }) => {
     formData.append("apellido_Paterno", apellido_Paterno);
     formData.append("apellido_Materno", apellido_Materno);
     formData.append("correo_electronico", correoElectronico);
-    formData.append("contrasena", contrasena);
     formData.append("celular", celular);
-    formData.append("idrol", idRol);
 
     if (img) {
       formData.append("img", img);
@@ -41,43 +58,44 @@ const AddUser = ({ setOpenAddUser, onUserAdded }) => {
     return formData;
   };
 
-  const getIdRol = () => {
-    setIdRol("3");
-    return idRol;
-  };
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const idRol = await getIdRol();
-
-    const formData = createFormData(idRol, img);
+    const formData = createFormData(img);
 
     try {
-      const response = await registerUser(formData);
+      const response: any = await post(
+        `/usuario/actualizar_admin?usuario=${props.userId}`,
+        formData,
+        "multipart/form-data"
+      );
+      console.log(response);
+      if (response.estado == "OK") {
+        console.log("Usuario actualizado exitosamente!");
+        console.log(props.userId + " has been update!");
+        alert(props.userId + " has been update!");
 
-      if (response.status == 200) {
-        console.log("Usuario registrado exitosamente!");
-        console.log(response);
+        // window.location.replace("/users");
       } else {
-        console.log(response);
+        console.log("Error al actualizar usuario:", response);
       }
     } catch (error) {
-      console.log("Error inesperado al registrar usuario:", error.message);
+      console.log(props.userId + "  not update!");
+      alert(props.userId + "  not update!");
+      console.log("Error inesperado al actualizar usuario:", error);
     } finally {
+      props.setOpenUpdateUser(false);
+      console.log(formData);
     }
   };
 
-  const handleClose = () => {
-    setOpenAddUser(false);
-    onUserAdded && onUserAdded();
-  };
-
   return (
-    <div className="addUser">
+    <div className="UpdateUser">
       <div className="modal">
-        <span className="close" onClick={handleClose}>X</span>
-        <h1>Agregar Nuevo Usuario</h1>
+        <span className="close" onClick={() => props.setOpenUpdateUser(false)}>
+          X
+        </span>
+        <h1>Actualizar Usuario</h1>
         <form onSubmit={handleSubmit}>
           <div className="item">
             <label>Nombre</label>
@@ -129,13 +147,13 @@ const AddUser = ({ setOpenAddUser, onUserAdded }) => {
               onChange={(e) => setCorreoElectronico(e.target.value)}
             />
           </div>
-          <div className="item">
+          {/* <div className="item">
             <label>Contraseña </label>
             <input
               type={showPassword ? "text" : "password"}
               name="contrasena"
               placeholder="Contraseña"
-              value={contrasena}
+              value={data.contrasena}
               onChange={(e) => setContrasena(e.target.value)}
               InputAdornment={
                 <InputAdornment position="end">
@@ -149,7 +167,7 @@ const AddUser = ({ setOpenAddUser, onUserAdded }) => {
                 </InputAdornment>
               }
             />
-          </div>
+          </div> */}
           <div className="item">
             <label>Celular</label>
             <input
@@ -176,4 +194,4 @@ const AddUser = ({ setOpenAddUser, onUserAdded }) => {
   );
 };
 
-export default AddUser;
+export default UpdateUser;

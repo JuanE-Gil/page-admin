@@ -27,44 +27,41 @@ const Users = () => {
   const [idUser, setIdUser] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-      try {
-        const response = await get("/usuario/listar_solo_usuarios");
-        console.log(response);
-        const userData: UserData[] = response.data.map((user) => ({
-          id: user.id_usuario,
-          username: user.username,
-          img: user.img,
-          name: user.nombre,
-          paternal_lastname: user.apellido_Paterno,
-          maternal_lastname: user.apellido_Materno,
-          email: user.correoElectronico,
-          phone: user.celular,
-          country: user.pais,
-          rol: user.idRol.descripcion,
-          state: user.estado,
-        }));
-        console.log(userData);
-        setData(userData);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+  const fetchData = async () => {
+    setIsLoading(true);
+    try {
+      const response = await get("/usuario/listar_solo_usuarios");
+      const userData: UserData[] = response.data.map((user) => ({
+        id: user.id_usuario,
+        username: user.username,
+        img: user.img,
+        name: user.nombre,
+        paternal_lastname: user.apellido_Paterno,
+        maternal_lastname: user.apellido_Materno,
+        email: user.correoElectronico,
+        phone: user.celular,
+        country: user.pais,
+        rol: user.idRol.descripcion,
+        state: user.estado,
+      }));
+      setData(userData);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchData();
   }, []);
 
   const handleDelete = async (id: number) => {
     try {
-      const response = await del(`/usuario/eliminar_admin?id=${id}`);
-      console.log(id + " has been deleted!");
+      await del(`/usuario/eliminar_admin?id=${id}`);
+      // Fetch updated data after deletion
       alert(id + " has been deleted!");
-      console.log(response);
-      window.location.href = "/";
+      await fetchData();
     } catch (error) {
       console.error("Error deleting item:", error);
     }
@@ -136,18 +133,18 @@ const Users = () => {
     },
     {
       field: "action",
-      headerName: "Opciones",
+      type: 'actions',
       width: 100,
       renderCell: (params) => {
         return (
           <div className="action">
-            <div
+            {/* <div
               onClick={() => {
                 setOpenUpdateUser(true), setIdUser(params.row.id);
               }}
             >
               <img src="/view.svg" alt="updateUser" />
-            </div>
+            </div> */}
             <div className="delete" onClick={() => handleDelete(params.row.id)}>
               <img src="/delete.svg" alt="" />
             </div>
@@ -156,6 +153,18 @@ const Users = () => {
       },
     },
   ];
+
+  const handleCloseAddUser = () => {
+    setOpenAddUser(false);
+    // Fetch updated data after adding a user
+    fetchData();
+  };
+
+  // const handleCloseUpdateUser = () => {
+  //   setOpenUpdateUser(false);
+  //   // Fetch updated data after updating a user
+  //   fetchData();
+  // };
 
   return (
     <>
@@ -176,10 +185,13 @@ const Users = () => {
         ) : (
           <p>No se han encontrado usuarios disponibles.</p>
         )}
-        {openAddUser && <AddUser setOpenAddUser={setOpenAddUser} />}
-        {openUpdateUser && (
-          <UpdateUser setOpenUpdateUser={setOpenUpdateUser} userId={idUser} />
+        {openAddUser && (
+          <AddUser
+            setOpenAddUser={setOpenAddUser}
+            onUserAdded={handleCloseAddUser}
+          />
         )}
+        {/* <UpdateUser setOpenUpdateUser={setOpenUpdateUser} userId={idUser} /> */}
       </div>
     </>
   );

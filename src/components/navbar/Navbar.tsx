@@ -17,7 +17,6 @@ const Navbar = () => {
         const usuario = response.data;
         setUsername(usuario.username);
         setImg(usuario.img);
-        console.log(usuario);
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {

@@ -8,8 +8,8 @@
     }
 
     img {
-      width: 48px;
-      height: 48px;
+      width: 44px;
+      height: 44px;
       border-radius: 50%;
       object-fit: cover;
     }
@@ -19,12 +19,12 @@
       gap: 15px;
 
       img {
-        width: 20px;
-        height: 20px;
+        width: 24px;
+        height: 24px;
         cursor: pointer;
 
         &:hover {
-          scale: 1.05;
+          transform: scale(1.25);
         }
       }
     }

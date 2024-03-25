@@ -1,8 +1,5 @@
 import { DataGrid, GridColDef, GridToolbar } from "@mui/x-data-grid";
 import "./dataTable.scss";
-import { Link, Navigate } from "react-router-dom";
-import { del } from "../../axiosConfig";
-import { useEffect, useState } from "react";
 
 type Props = {
   columns: GridColDef[];
@@ -11,8 +8,6 @@ type Props = {
 };
 
 const DataTable = (props: Props) => {
-
-
 
   return (
     <div className="dataTable">
