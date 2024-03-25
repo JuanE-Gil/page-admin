@@ -2,7 +2,7 @@ import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import tokenUtils from "./tokenUtils";
 
 const authToken = tokenUtils.getToken();
-const baseURL = "https://rapiauto.azurewebsites.net";
+const baseURL = "https://rapidauto.up.railway.app";
 // const baseURL = "http://localhost:8890";
 
 interface IHeaders {
