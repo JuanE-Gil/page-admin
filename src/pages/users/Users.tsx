@@ -2,8 +2,9 @@ import { GridColDef } from "@mui/x-data-grid";
 import DataTable from "../../components/dataTable/DataTable";
 import "./users.scss";
 import { useEffect, useState } from "react";
-import {get} from "../../axiosConfig";
+import { del, get } from "../../axiosConfig";
 import AddUser from "../../components/addUser/AddUser";
+import UpdateUser from "../../components/updateUser/UpdateUser";
 
 interface UserData {
   id: number;
@@ -20,8 +21,10 @@ interface UserData {
 }
 
 const Users = () => {
-  const [open, setOpen] = useState(false);
+  const [openAddUser, setOpenAddUser] = useState(false);
+  const [openUpdateUser, setOpenUpdateUser] = useState(false);
   const [data, setData] = useState([]);
+  const [idUser, setIdUser] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -29,6 +32,7 @@ const Users = () => {
       setIsLoading(true);
       try {
         const response = await get("/usuario/listar_solo_usuarios");
+        console.log(response);
         const userData: UserData[] = response.data.map((user) => ({
           id: user.id_usuario,
           username: user.username,
@@ -42,6 +46,7 @@ const Users = () => {
           rol: user.idRol.descripcion,
           state: user.estado,
         }));
+        console.log(userData);
         setData(userData);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -52,6 +57,18 @@ const Users = () => {
 
     fetchData();
   }, []);
+
+  const handleDelete = async (id: number) => {
+    try {
+      const response = await del(`/usuario/eliminar_admin?id=${id}`);
+      console.log(id + " has been deleted!");
+      alert(id + " has been deleted!");
+      console.log(response);
+      window.location.href = "/";
+    } catch (error) {
+      console.error("Error deleting item:", error);
+    }
+  };
 
   const columns: GridColDef[] = [
     { field: "id", headerName: "ID", width: 50 },
@@ -117,6 +134,27 @@ const Users = () => {
       width: 100,
       type: "boolean",
     },
+    {
+      field: "action",
+      headerName: "Opciones",
+      width: 100,
+      renderCell: (params) => {
+        return (
+          <div className="action">
+            <div
+              onClick={() => {
+                setOpenUpdateUser(true), setIdUser(params.row.id);
+              }}
+            >
+              <img src="/view.svg" alt="updateUser" />
+            </div>
+            <div className="delete" onClick={() => handleDelete(params.row.id)}>
+              <img src="/delete.svg" alt="" />
+            </div>
+          </div>
+        );
+      },
+    },
   ];
 
   return (
@@ -124,7 +162,9 @@ const Users = () => {
       <div className="users">
         <div className="info">
           <h1>Usuarios</h1>
-          <button onClick={() => setOpen(true)}>Agregar Nuevo Usuario</button>
+          <button onClick={() => setOpenAddUser(true)}>
+            Agregar Nuevo Usuario
+          </button>
         </div>
         {isLoading ? (
           <div className="loading">
@@ -136,7 +176,10 @@ const Users = () => {
         ) : (
           <p>No se han encontrado usuarios disponibles.</p>
         )}
-        {open && <AddUser setOpen={setOpen} />}
+        {openAddUser && <AddUser setOpenAddUser={setOpenAddUser} />}
+        {openUpdateUser && (
+          <UpdateUser setOpenUpdateUser={setOpenUpdateUser} userId={idUser} />
+        )}
       </div>
     </>
   );

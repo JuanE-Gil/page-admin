@@ -10,7 +10,7 @@ import { Navigate } from "react-router-dom";
 
 type Props = {
   slug: string;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpenAddUser: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const AddUser = (props: Props) => {
@@ -21,7 +21,6 @@ const AddUser = (props: Props) => {
   const [correoElectronico, setCorreoElectronico] = useState("");
   const [contrasena, setContrasena] = useState("");
   const [celular, setCelular] = useState("");
-  const [pais, setPais] = useState("");
   const [idRol, setIdRol] = useState("3");
   const [img, setImg] = useState<null | File>(null);
   const [showPassword, setShowPassword] = useState(false);
@@ -65,10 +64,10 @@ const AddUser = (props: Props) => {
       if (response.estado == "OK") {
         console.log("Usuario registrado exitosamente!");
         console.log(response);
-        props.setOpen(false);
+        props.setOpenAddUser(false);
         // window.location.replace("/users");
       } else {
-        console.log("Error al registrar usuario:", response.data.message);
+        console.log("Error al registrar usuario:", response);
         console.log(response);
       }
     } catch (error) {
@@ -81,7 +80,7 @@ const AddUser = (props: Props) => {
   return (
     <div className="addUser">
       <div className="modal">
-        <span className="close" onClick={() => props.setOpen(false)}>X</span>
+        <span className="close" onClick={() => props.setOpenAddUser(false)}>X</span>
         <h1>Agregar Nuevo Usuario</h1>
         <form onSubmit={handleSubmit}>
           <div className="item">
