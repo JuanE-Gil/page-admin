@@ -10,7 +10,7 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState("");
 
   const authToken = tokenUtils.getToken();
-  const baseURL = "https://rapiauto.azurewebsites.net";
+  const baseURL = "https://rapidauto.up.railway.app";
 
   const handleLogin = async (e) => {
     e.preventDefault();
