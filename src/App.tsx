@@ -32,7 +32,7 @@ const isAuthenticated = () => {
 
   const users = decodedToken.sub;
 
-  const allowedRoles = ["ThMonkey02", "Arima"]; // usuarios permitidos para la ruta actual
+  const allowedRoles = ["ThMonkey02", "Arima", "Erick0311"]; // usuarios permitidos para la ruta actual
   if (!allowedRoles.includes(users)) {
     return false;
   }
