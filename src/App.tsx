@@ -6,7 +6,6 @@ import {
   Navigate,
 } from "react-router-dom";
 import Users from "./pages/users/Users";
-import Products from "./pages/vehicles/Vehicles";
 import Navbar from "./components/navbar/Navbar";
 import Footer from "./components/footer/Footer";
 import Menu from "./components/menu/Menu";
@@ -31,10 +30,9 @@ const isAuthenticated = () => {
     return false;
   }
 
-  // Obtener el username  del token
   const users = decodedToken.sub;
 
-  const allowedRoles = ["ThMonkey02", "Arima"]; // usuarios permitidos para la ruta actual
+  const allowedRoles = ["ThMonkey02", "Arima", "Erick0311"]; // usuarios permitidos para la ruta actual
   if (!allowedRoles.includes(users)) {
     return false;
   }

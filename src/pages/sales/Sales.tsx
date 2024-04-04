@@ -1,6 +1,6 @@
 import { GridColDef } from "@mui/x-data-grid";
 import { useState, useEffect } from "react";
-import axiosInstance from "../../axiosConfig";
+import { get } from "../../axiosConfig";
 import Add from "../../components/add/Add";
 import DataTable from "../../components/dataTable/DataTable";
 import "./sales.scss";
@@ -14,18 +14,19 @@ const Sales = () => {
     const fetchData = async () => {
       setIsLoading(true);
       try {
-        const response = await axiosInstance.get("/venta");
-        const saleData = response.data.data;
+        const response = await get("/venta");
+        const saleData = response.data;
         setData(
           saleData.map((sale) => ({
             id: sale.id_venta,
-            car: sale.idauto,
+            car: sale.idauto.modelo,
             user: sale.idusuario.nombre,
             creation_date: sale.fecha_creacion,
             price: sale.precio_auto,
             completion_date: sale.fecha_finalizacion,
           }))
         );
+        console.log(saleData);
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -43,7 +44,7 @@ const Sales = () => {
       field: "car",
       type: "string",
       headerName: "Auto",
-      width: 150,
+      width: 200,
     },
     {
       field: "user",
@@ -53,20 +54,38 @@ const Sales = () => {
     },
     {
       field: "creation_date",
-      type: "string",
+      type: "date",
       headerName: "Fecha Creacion",
       width: 150,
+      valueFormatter: (params) => {
+        const dateFormatter = new Intl.DateTimeFormat("es-PE", {
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+        });
+
+        return dateFormatter.format(new Date(params.value));
+      },
     },
     {
       field: "price",
-      type: "string",
+      type: "number",
       headerName: "Precio",
+      headerAlign: "center",
       width: 150,
+      valueFormatter: (params) => {
+        const price = parseFloat(params.value);
+        return `${price.toLocaleString("es-PE", {
+          style: "currency",
+          currency: "PEN",
+          minimumFractionDigits: 2,
+        })}`;
+      },
     },
     {
       field: "completion_date",
-      type: "string",
-      headerName: "Fecha Finalizacion",
+      type: "boolean",
+      headerName: "Vendido",
       width: 200,
     },
   ];
@@ -76,13 +95,12 @@ const Sales = () => {
       <div className="sales">
         <div className="info">
           <h1>Listado de Ventas</h1>
-          {/* <button onClick={() => setOpen(true)}>Agregar Nuevo Usuario</button> */}
         </div>
         {isLoading ? (
           <div className="loading">
-          <p>Cargando ventas disponibles...</p>
-          <img src="/1.png" alt="" />
-        </div>
+            <p>Cargando ventas disponibles...</p>
+            <img src="/1.png" alt="" />
+          </div>
         ) : data.length > 0 ? (
           <DataTable slug="sales" columns={columns} rows={data} />
         ) : (

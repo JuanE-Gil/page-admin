@@ -2,51 +2,77 @@ import { GridColDef } from "@mui/x-data-grid";
 import DataTable from "../../components/dataTable/DataTable";
 import "./users.scss";
 import { useEffect, useState } from "react";
-import Add from "../../components/add/Add";
-import axiosInstance from "../../axiosConfig";
+import { del, get } from "../../axiosConfig";
+import AddUser from "../../components/addUser/AddUser";
+import UpdateUser from "../../components/updateUser/UpdateUser";
+
+interface UserData {
+  id: number;
+  username: string;
+  img: string;
+  name: string;
+  paternal_lastname: string;
+  maternal_lastname: string;
+  email: string;
+  phone: string;
+  country: string;
+  rol: string;
+  state: boolean;
+}
 
 const Users = () => {
-  const [open, setOpen] = useState(false);
+  const [openAddUser, setOpenAddUser] = useState(false);
+  const [openUpdateUser, setOpenUpdateUser] = useState(false);
   const [data, setData] = useState([]);
+  const [idUser, setIdUser] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-      try {
-        const response = await axiosInstance.get("/usuario");
-        const userData = response.data.data;
-        setData(
-          userData.map((user) => ({
-            id: user.id_usuario,
-            username: user.username,
-            img: user.img,
-            name: user.nombre,
-            paternal_lastname: user.apellido_Paterno,
-            maternal_lastname: user.apellido_Materno,
-            email: user.correoElectronico,
-            phone: user.celular,
-            country: user.pais,
-            rol: user.idRol.descripcion,
-            state: user.estado,
-          }))
-        );
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+  const fetchData = async () => {
+    setIsLoading(true);
+    try {
+      const response = await get("/usuario/listar_solo_usuarios");
+      const userData: UserData[] = response.data.map((user) => ({
+        id: user.id_usuario,
+        username: user.username,
+        img: user.img,
+        name: user.nombre,
+        paternal_lastname: user.apellido_Paterno,
+        maternal_lastname: user.apellido_Materno,
+        email: user.correoElectronico,
+        phone: user.celular,
+        country: user.pais,
+        rol: user.idRol.descripcion,
+        state: user.estado,
+      }));
+      setData(userData);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchData();
   }, []);
+
+  const handleDelete = async (id: number) => {
+    try {
+      await del(`/usuario/eliminar_admin?id=${id}`);
+      // Fetch updated data after deletion
+      alert(id + " has been deleted!");
+      await fetchData();
+    } catch (error) {
+      console.error("Error deleting item:", error);
+    }
+  };
 
   const columns: GridColDef[] = [
     { field: "id", headerName: "ID", width: 50 },
     {
       field: "img",
       headerName: "Avatar",
-      width: 90,
+      width: 100,
       renderCell: (params) => {
         return (
           <img
@@ -82,7 +108,7 @@ const Users = () => {
     },
     {
       field: "email",
-      type: "string",
+      type: "email",
       headerName: "Email",
       width: 200,
     },
@@ -90,6 +116,7 @@ const Users = () => {
       field: "phone",
       type: "string",
       headerName: "Celular",
+      headerAlign: "center",
       width: 150,
     },
     {
@@ -104,14 +131,49 @@ const Users = () => {
       width: 100,
       type: "boolean",
     },
+    {
+      field: "action",
+      type: 'actions',
+      width: 100,
+      renderCell: (params) => {
+        return (
+          <div className="action">
+            {/* <div
+              onClick={() => {
+                setOpenUpdateUser(true), setIdUser(params.row.id);
+              }}
+            >
+              <img src="/view.svg" alt="updateUser" />
+            </div> */}
+            <div className="delete" onClick={() => handleDelete(params.row.id)}>
+              <img src="/delete.svg" alt="" />
+            </div>
+          </div>
+        );
+      },
+    },
   ];
+
+  const handleCloseAddUser = () => {
+    setOpenAddUser(false);
+    // Fetch updated data after adding a user
+    fetchData();
+  };
+
+  // const handleCloseUpdateUser = () => {
+  //   setOpenUpdateUser(false);
+  //   // Fetch updated data after updating a user
+  //   fetchData();
+  // };
 
   return (
     <>
       <div className="users">
         <div className="info">
           <h1>Usuarios</h1>
-          <button onClick={() => setOpen(true)}>Agregar Nuevo Usuario</button>
+          <button onClick={() => setOpenAddUser(true)}>
+            Agregar Nuevo Usuario
+          </button>
         </div>
         {isLoading ? (
           <div className="loading">
@@ -119,11 +181,17 @@ const Users = () => {
             <img src="/1.png" alt="" />
           </div>
         ) : data.length > 0 ? (
-          <DataTable slug="users" columns={columns} rows={data} />
+          <DataTable slug="usuario" columns={columns} rows={data} />
         ) : (
           <p>No se han encontrado usuarios disponibles.</p>
         )}
-        {open && <Add slug="usuario" columns={columns} setOpen={setOpen} />}
+        {openAddUser && (
+          <AddUser
+            setOpenAddUser={setOpenAddUser}
+            onUserAdded={handleCloseAddUser}
+          />
+        )}
+        {/* <UpdateUser setOpenUpdateUser={setOpenUpdateUser} userId={idUser} /> */}
       </div>
     </>
   );

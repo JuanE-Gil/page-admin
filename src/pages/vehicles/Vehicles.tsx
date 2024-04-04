@@ -3,7 +3,7 @@ import Add from "../../components/add/Add";
 import DataTable from "../../components/dataTable/DataTable";
 import "./vehicles.scss";
 import { GridColDef } from "@mui/x-data-grid";
-import axiosInstance from "../../axiosConfig";
+import {get} from "../../axiosConfig";
 
 const Vehicles = () => {
   const [open, setOpen] = useState(false);
@@ -14,8 +14,8 @@ const Vehicles = () => {
     const fetchData = async () => {
       setIsLoading(true);
       try {
-        const response = await axiosInstance.get("/auto");
-        const carData = response.data.data;
+        const response = await get("/auto");
+        const carData = response.data;
         setData(
           carData.map((car) => ({
             id: car.idAuto,
@@ -31,7 +31,8 @@ const Vehicles = () => {
             price: car.precio,
             user: car.idusuario.nombre,
           }))
-        );
+          );
+          console.log(carData);
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -98,8 +99,7 @@ const Vehicles = () => {
   return (
     <div className="vehicles">
       <div className="info">
-        <h1>Autos</h1>
-        <button onClick={() => setOpen(true)}>Agregar Nuevo Auto</button>
+        <h1>Listado de Autos</h1>
       </div>
       {isLoading ? (
         <div className="loading">

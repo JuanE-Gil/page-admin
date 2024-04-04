@@ -8,8 +8,8 @@
     }
 
     img {
-      width: 48px;
-      height: 48px;
+      width: 44px;
+      height: 44px;
       border-radius: 50%;
       object-fit: cover;
     }
@@ -19,13 +19,61 @@
       gap: 15px;
 
       img {
-        width: 20px;
-        height: 20px;
+        width: 24px;
+        height: 24px;
         cursor: pointer;
 
         &:hover {
-          scale: 1.05;
+          transform: scale(1.25);
         }
+      }
+    }
+  }
+}
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+  .dataGrid {
+    padding: 10px;
+
+    .MuiDataGrid-toolbarContainer {
+      flex-wrap: wrap;
+    }
+
+    img {
+      width: 40px;
+      height: 40px;
+    }
+
+    .action {
+      gap: 10px;
+
+      img {
+        width: 16px;
+        height: 16px;
+      }
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .dataGrid {
+    padding: 5px;
+
+    .MuiDataGrid-toolbarContainer {
+      /* Further adjust toolbar styles for even smaller screens */
+    }
+
+    img {
+      width: 32px;
+      height: 32px;
+    }
+
+    .action {
+      gap: 5px;
+
+      img {
+        width: 12px;
+        height: 12px;
       }
     }
   }

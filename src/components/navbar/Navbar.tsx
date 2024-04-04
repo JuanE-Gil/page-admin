@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import "./navbar.scss";
 import { useState, useEffect } from "react";
-import axiosInstance from "../../axiosConfig";
+import {get} from "../../axiosConfig";
 
 const Navbar = () => {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -9,20 +9,12 @@ const Navbar = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [img, setImg] = useState([]);
 
-  // useEffect(() => {
-  //   const storedUser = localStorage.getItem("user");
-  //   if (storedUser) {
-  //     const user = JSON.parse(storedUser);
-  //     setUsername(user);
-  //   }
-  // }, []);
-
   useEffect(() => {
     const fetchUserData = async () => {
       setIsLoading(true);
       try {
-        const response = await axiosInstance.get("/usuario/Buscar/Usuario");
-        const usuario = response.data.data;
+        const response = await get("/usuario/buscar_usuario");
+        const usuario = response.data;
         setUsername(usuario.username);
         setImg(usuario.img);
       } catch (error) {
