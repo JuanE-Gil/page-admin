@@ -71,4 +71,18 @@ const registerUser = async (formData: FormData): Promise<AxiosResponse> => {
   }
 };
 
-export { setAuthToken, get, post, put, del, registerUser, updateUser };
+const registerAdmin = async (formData: FormData): Promise<AxiosResponse> => {
+  try {
+    const response = await post(
+      "/usuario/registrar_admin",
+      formData,
+      "multipart/form-data"
+    );
+    return response;
+  } catch (error) {
+    console.error("Error al registrar usuario:", error);
+    return Promise.reject(error);
+  }
+};
+
+export { setAuthToken, get, post, put, del, registerUser, registerAdmin };

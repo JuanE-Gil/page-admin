@@ -29,12 +29,18 @@ export const menu = [
         },
         {
           id: 2,
+          title: "Administradores",
+          url: "/admins",
+          icon: "user.svg",
+        },
+        {
+          id: 3,
           title: "Vehiculos",
           url: "/vehicles",
           icon: "product.svg",
         },
         {
-          id: 3,
+          id: 4,
           title: "Categorias",
           url: "/categories",
           icon: "order.svg",

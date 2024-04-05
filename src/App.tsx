@@ -6,6 +6,7 @@ import {
   Navigate,
 } from "react-router-dom";
 import Users from "./pages/users/Users";
+import Admins from "./pages/admins/Admins";
 import Navbar from "./components/navbar/Navbar";
 import Footer from "./components/footer/Footer";
 import Menu from "./components/menu/Menu";
@@ -15,6 +16,7 @@ import tokenUtils from "./tokenUtils";
 import Categories from "./pages/categories/Categories";
 import Sales from "./pages/sales/Sales";
 import Vehicles from "./pages/vehicles/Vehicles";
+import Profile from "./pages/profile/Profile";
 
 const isAuthenticated = () => {
   const token = localStorage.getItem("authToken");
@@ -32,7 +34,7 @@ const isAuthenticated = () => {
 
   const users = decodedToken.sub;
 
-  const allowedRoles = ["ThMonkey02", "Arima", "Erick0311"]; // usuarios permitidos para la ruta actual
+  const allowedRoles = ["ThMonkey02", "Arima", "Erick0311"];
   if (!allowedRoles.includes(users)) {
     return false;
   }
@@ -76,6 +78,10 @@ function App() {
           element: <Users />,
         },
         {
+          path: "/admins",
+          element: <Admins />,
+        },
+        {
           path: "/vehicles",
           element: <Vehicles />,
         },
@@ -86,6 +92,10 @@ function App() {
         {
           path: "/sales",
           element: <Sales />,
+        },
+        {
+          path: "/profile",
+          element: <Profile />,
         },
       ],
     },
