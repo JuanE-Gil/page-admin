@@ -85,4 +85,4 @@ const registerAdmin = async (formData: FormData): Promise<AxiosResponse> => {
   }
 };
 
-export { setAuthToken, get, post, put, del, registerUser, registerAdmin };T extends any = any
+export { setAuthToken, get, post, put, del, registerUser, registerAdmin };
