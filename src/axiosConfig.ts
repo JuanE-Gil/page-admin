@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
+import axios, { AxiosRequestHeaders, AxiosResponse } from "axios";
 import tokenUtils from "./tokenUtils";
 
 const authToken = tokenUtils.getToken();
@@ -27,7 +27,7 @@ const axiosInstance = axios.create({
 });
 
 const setAuthToken = (authToken: string) => {
-  axiosInstance.defaults.headers.common = createHeaders(authToken);
+  axiosInstance.defaults.headers.common = createHeaders(authToken) as AxiosRequestHeaders;
 };
 
 const get = async <T>(url: string): Promise<T> => {
@@ -85,4 +85,4 @@ const registerAdmin = async (formData: FormData): Promise<AxiosResponse> => {
   }
 };
 
-export { setAuthToken, get, post, put, del, registerUser, registerAdmin };
+export { setAuthToken, get, post, put, del, registerUser, registerAdmin };T extends any = any

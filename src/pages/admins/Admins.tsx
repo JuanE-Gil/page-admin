@@ -21,15 +21,14 @@ interface AdminData {
 
 const Users = () => {
   const [openAddAdmin, setOpenAddAdmin] = useState(false);
-  const [data, setData] = useState([]);
-  const [idAdmin, setIdAdmin] = useState([]);
+  const [data, setData] = useState<AdminData[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const fetchData = async () => {
     setIsLoading(true);
     try {
-      const response = await get("/usuario/listar_solo_admins");
-      const adminData: AdminData[] = response.data.map((admin) => ({
+      const response: any = await get("/usuario/listar_solo_admins");
+      const adminData: AdminData[] = response.data.map((admin: any) => ({
         id: admin.id_usuario,
         username: admin.username,
         img: admin.img,
@@ -57,7 +56,6 @@ const Users = () => {
   const handleDelete = async (id: number) => {
     try {
       await del(`/usuario/eliminar_admin?id=${id}`);
-      // Fetch updated data after deletion
       alert(id + " has been deleted!");
       await fetchData();
     } catch (error) {
