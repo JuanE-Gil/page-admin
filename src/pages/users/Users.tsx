@@ -4,7 +4,6 @@ import "./users.scss";
 import { useEffect, useState } from "react";
 import { del, get } from "../../axiosConfig";
 import AddUser from "../../components/addUser/AddUser";
-import UpdateUser from "../../components/updateUser/UpdateUser";
 
 interface UserData {
   id: number;
@@ -22,9 +21,7 @@ interface UserData {
 
 const Users = () => {
   const [openAddUser, setOpenAddUser] = useState(false);
-  const [openUpdateUser, setOpenUpdateUser] = useState(false);
-  const [data, setData] = useState([]);
-  const [idUser, setIdUser] = useState([]);
+  const [data, setData] = useState<UserData[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const fetchData = async () => {
