@@ -16,6 +16,7 @@ const Sales = () => {
       try {
         const response = await get("/venta");
         const saleData = response.data;
+        console.log(response)
         setData(
           saleData.map((sale) => ({
             id: sale.id_venta,
@@ -24,6 +25,7 @@ const Sales = () => {
             creation_date: sale.fecha_creacion,
             price: sale.precio_auto,
             completion_date: sale.fecha_finalizacion,
+            status: sale.estado
           }))
         );
         console.log(saleData);
@@ -86,6 +88,12 @@ const Sales = () => {
       field: "completion_date",
       type: "boolean",
       headerName: "Vendido",
+      width: 200,
+    },
+    {
+      field: "status",
+      type: "string",
+      headerName: "Estado",
       width: 200,
     },
   ];
