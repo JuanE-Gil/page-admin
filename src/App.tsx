@@ -33,13 +33,6 @@ const isAuthenticated = () => {
     return false;
   }
 
-  const users = decodedToken.sub;
-
-  const allowedRoles = ["ThMonkey02", "Arima", "Erick0311"];
-  if (!allowedRoles.includes(users)) {
-    return false;
-  }
-
   return true;
 };
 
