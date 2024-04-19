@@ -28,12 +28,14 @@ const Login = () => {
       },
     });
 
-
     try {
       const response = await axiosInstance.post("/login", request);
       tokenUtils.setToken(response.data.token);
-      window.location.href = "/";
-      console.log(response);
+      if (response.data.Estado == "Activo" && response.data.Rol == "Rol") {
+        window.location.href = "/";
+      } else {
+        alert("Cuenta Inactiva, consultar con un administrador")
+      }
     } catch (error) {
       if (error.response) {
         const { status, data } = error.response;
