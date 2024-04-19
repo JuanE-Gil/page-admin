@@ -51,6 +51,12 @@ export const menu = [
           url: "/sales",
           icon: "post2.svg",
         },
+        {
+          id: 5,
+          title: "Mensajes",
+          url: "/mensajes",
+          icon: "post2.svg",
+        },
       ],
     },
     // {

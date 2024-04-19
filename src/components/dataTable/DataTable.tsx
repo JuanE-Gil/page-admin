@@ -1,5 +1,6 @@
-import { DataGrid, GridColDef, GridToolbar } from "@mui/x-data-grid";
+import { DataGrid, GridColDef, GridFilterModel, GridToolbar } from "@mui/x-data-grid";
 import "./dataTable.scss";
+import React from "react";
 
 type Props = {
   columns: GridColDef[];
@@ -29,9 +30,8 @@ const DataTable = (props: Props) => {
             quickFilterProps: { debounceMs: 500 },
           },
         }}
-        pageSizeOptions={[5]}
+        pageSizeOptions={[10]}
         disableRowSelectionOnClick
-        disableColumnFilter
         disableColumnSelector
         disableDensitySelector
       />

@@ -47,7 +47,8 @@ const post = async <T>(
 };
 
 const put = async <T>(url: string, data?: any): Promise<T> => {
-  const response = await axiosInstance.put<T>(url, data);
+  const headers = createHeaders(authToken);
+  const response = await axiosInstance.put<T>(url, data,  { headers });
   return response.data;
 };
 

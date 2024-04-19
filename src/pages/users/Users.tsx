@@ -2,8 +2,11 @@ import { GridColDef } from "@mui/x-data-grid";
 import DataTable from "../../components/dataTable/DataTable";
 import "./users.scss";
 import { useEffect, useState } from "react";
-import { del, get } from "../../axiosConfig";
+import { get } from "../../axiosConfig";
 import AddUser from "../../components/addUser/AddUser";
+import UpdateUser from "../../components/updateUser/UpdateUser";
+import axios from "axios";
+import tokenUtils from "../../tokenUtils";
 
 interface UserData {
   id: number;
@@ -21,6 +24,8 @@ interface UserData {
 
 const Users = () => {
   const [openAddUser, setOpenAddUser] = useState(false);
+  const [openUpdateUser, setOpenUpdateUser] = useState(false);
+  const [idUser, setIdUser] = useState();
   const [data, setData] = useState<UserData[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -55,14 +60,29 @@ const Users = () => {
 
   const handleDelete = async (id: number) => {
     try {
-      await del(`/usuario/eliminar_admin?id=${id}`);
-      // Fetch updated data after deletion
-      alert(id + " has been deleted!");
+      const authToken = tokenUtils.getToken();
+
+      const axiosInstance = axios.create({
+        baseURL: 'https://rapidauto.up.railway.app',
+        headers: {
+          Authorization: `Bearer ${authToken}`
+        }
+
+      });
+
+      await axiosInstance.put(`/usuario/desactivado_por_admin?id=${id}`);
+      alert(id + " ha sido desactivado");
       await fetchData();
     } catch (error) {
-      console.error("Error deleting item:", error);
+      console.error("Error al desactivar elemento:", error);
     }
   };
+
+  const handleEditClick = (id: number) => {
+    setIdUser(id);
+    setOpenUpdateUser(true);
+  };
+
 
   const columns: GridColDef[] = [
     { field: "id", headerName: "ID", width: 50 },
@@ -126,22 +146,18 @@ const Users = () => {
       field: "state",
       headerName: "Estado",
       width: 100,
-      type: "boolean",
+      type: "string",
     },
     {
       field: "action",
-      type: 'actions',
+      type: "actions",
       width: 100,
       renderCell: (params) => {
         return (
           <div className="action">
-            {/* <div
-              onClick={() => {
-                setOpenUpdateUser(true), setIdUser(params.row.id);
-              }}
-            >
-              <img src="/view.svg" alt="updateUser" />
-            </div> */}
+            <div className="edit" onClick={() => handleEditClick(params.row.id)}>
+              <img src="/view.svg" alt="" />
+            </div>
             <div className="delete" onClick={() => handleDelete(params.row.id)}>
               <img src="/delete.svg" alt="" />
             </div>
@@ -153,15 +169,13 @@ const Users = () => {
 
   const handleCloseAddUser = () => {
     setOpenAddUser(false);
-    // Fetch updated data after adding a user
     fetchData();
   };
 
-  // const handleCloseUpdateUser = () => {
-  //   setOpenUpdateUser(false);
-  //   // Fetch updated data after updating a user
-  //   fetchData();
-  // };
+  const handleCloseUpdateUser = () => {
+    setOpenUpdateUser(false);
+    fetchData();
+  };
 
   return (
     <>
@@ -188,7 +202,13 @@ const Users = () => {
             onUserAdded={handleCloseAddUser}
           />
         )}
-        {/* <UpdateUser setOpenUpdateUser={setOpenUpdateUser} userId={idUser} /> */}
+        {openUpdateUser && (
+          <UpdateUser
+            setOpenUpdateUser={setOpenUpdateUser}
+            onUserUpdated={handleCloseUpdateUser}
+            userId={idUser}
+          />
+        )}
       </div>
     </>
   );

@@ -3,14 +3,13 @@ import Add from "../../components/add/Add";
 import DataTable from "../../components/dataTable/DataTable";
 import "./vehicles.scss";
 import { GridColDef } from "@mui/x-data-grid";
-import {get} from "../../axiosConfig";
+import { del, get } from "../../axiosConfig";
 
 const Vehicles = () => {
   const [open, setOpen] = useState(false);
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
       try {
@@ -31,8 +30,8 @@ const Vehicles = () => {
             price: car.precio,
             user: car.idusuario.nombre,
           }))
-          );
-          console.log(carData);
+        );
+        console.log(carData);
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -40,8 +39,19 @@ const Vehicles = () => {
       }
     };
 
+  useEffect(() => {
     fetchData();
   }, []);
+
+  const handleDelete = async (id: number) => {
+    try {
+      await del(`/auto/eliminar?id=${id}`);
+      alert(id + " has been deleted!");
+      await fetchData();
+    } catch (error) {
+      console.error("Error deleting item:", error);
+    }
+  };
 
   const columns: GridColDef[] = [
     { field: "id", headerName: "ID", width: 90 },
@@ -62,7 +72,7 @@ const Vehicles = () => {
       field: "model",
       type: "string",
       headerName: "Modelo",
-      width: 250,
+      width: 150,
     },
     {
       field: "engine",
@@ -74,27 +84,57 @@ const Vehicles = () => {
       field: "mileage",
       type: "string",
       headerName: "Kilometraje",
-      width: 200,
+      width: 150,
     },
     {
       field: "brand",
       headerName: "Marca",
       type: "string",
-      width: 200,
+      width: 150,
     },
     {
       field: "category_id",
       headerName: "Categoria",
       type: "string",
-      width: 200,
+      width: 150,
     },
     {
       field: "user",
       headerName: "Usuario",
       type: "string",
-      width: 200,
+      width: 100,
+    },
+    {
+      field: "price",
+      headerName: "Precio",
+      type: "number",
+      width: 100,
+    },
+    {
+      field: "status",
+      headerName: "Estatus",
+      type: "boolean",
+      width: 100,
+    },
+    {
+      field: "action",
+      type: "actions",
+      width: 100,
+      renderCell: (params) => {
+        return (
+          <div className="action">
+            <div className="edit" onClick={() => handleDelete(params.row.id)}>
+              <img src="/view.svg" alt="" />
+            </div>
+            <div className="delete" onClick={() => handleDelete(params.row.id)}>
+              <img src="/delete.svg" alt="" />
+            </div>
+          </div>
+        );
+      },
     },
   ];
+
 
   return (
     <div className="vehicles">

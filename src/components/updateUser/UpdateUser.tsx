@@ -1,17 +1,11 @@
-import { ErrorInfo, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import "./UpdateUser.scss";
 
 import { get, post } from "../../axiosConfig";
-import { AxiosError } from "axios";
 
-type Props = {
-  slug: string;
-  setOpenUpdateUser: React.Dispatch<React.SetStateAction<boolean>>;
-  userId: Number;
-};
-
-const UpdateUser = (props: Props) => {
+const UpdateUser = (props) => {
+  const { setOpenUpdateUser, onUserUpdated, userId } = props;
   const [username, setUsername] = useState("");
   const [nombre, setNombre] = useState("");
   const [apellido_Paterno, setApellido_Paterno] = useState("");
@@ -20,11 +14,13 @@ const UpdateUser = (props: Props) => {
   const [celular, setCelular] = useState("");
   const [img, setImg] = useState<null | File>(null);
 
+  console.log(userId);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response: any = await get(
-          `/usuario/buscar_usuario_id?id=${props.userId}`
+          `/usuario/buscar_usuario_por_id?id=${userId}`
         );
         setUsername(response.data.username);
         setNombre(response.data.nombre);
@@ -65,37 +61,42 @@ const UpdateUser = (props: Props) => {
 
     try {
       const response: any = await post(
-        `/usuario/actualizar_admin?usuario=${props.userId}`,
+        `/usuario/actualizar_admin?usuario=${userId}`,
         formData,
         "multipart/form-data"
       );
       console.log(response);
       if (response.estado == "OK") {
         console.log("Usuario actualizado exitosamente!");
-        console.log(props.userId + " has been update!");
-        alert(props.userId + " has been update!");
+        console.log(userId + " has been update!");
+        alert(userId + " has been update!");
 
         // window.location.replace("/users");
       } else {
         console.log("Error al actualizar usuario:", response);
       }
     } catch (error) {
-      console.log(props.userId + "  not update!");
-      alert(props.userId + "  not update!");
+      console.log(userId + "  not update!");
+      alert(userId + "  not update!");
       console.log("Error inesperado al actualizar usuario:", error);
     } finally {
-      props.setOpenUpdateUser(false);
+      setOpenUpdateUser(false);
       console.log(formData);
     }
+  };
+
+  const handleClose = () => {
+    setOpenUpdateUser(false);
+    onUserUpdated && onUserUpdated();
   };
 
   return (
     <div className="UpdateUser">
       <div className="modal">
-        <span className="close" onClick={() => props.setOpenUpdateUser(false)}>
+        <span className="close" onClick={handleClose}>
           X
         </span>
-        <h1>Actualizar Usuario</h1>
+        <h1>Agregar Nuevo Usuario</h1>
         <form onSubmit={handleSubmit}>
           <div className="item">
             <label>Nombre</label>
@@ -147,27 +148,6 @@ const UpdateUser = (props: Props) => {
               onChange={(e) => setCorreoElectronico(e.target.value)}
             />
           </div>
-          {/* <div className="item">
-            <label>Contraseña </label>
-            <input
-              type={showPassword ? "text" : "password"}
-              name="contrasena"
-              placeholder="Contraseña"
-              value={data.contrasena}
-              onChange={(e) => setContrasena(e.target.value)}
-              InputAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={() => setShowPassword(!showPassword)}
-                    edge="end"
-                  >
-                    {showPassword ? <Visibility /> : <VisibilityOff />}
-                  </IconButton>
-                </InputAdornment>
-              }
-            />
-          </div> */}
           <div className="item">
             <label>Celular</label>
             <input

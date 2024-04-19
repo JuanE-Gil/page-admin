@@ -17,6 +17,7 @@ import Categories from "./pages/categories/Categories";
 import Sales from "./pages/sales/Sales";
 import Vehicles from "./pages/vehicles/Vehicles";
 import Profile from "./pages/profile/Profile";
+import ListaMensajes from "./pages/listMensajes/ListaMensajes";
 
 const isAuthenticated = () => {
   const token = localStorage.getItem("authToken");
@@ -80,6 +81,10 @@ function App() {
         {
           path: "/admins",
           element: <Admins />,
+        },
+        {
+          path: "/mensajes",
+          element: <ListaMensajes />,
         },
         {
           path: "/vehicles",
