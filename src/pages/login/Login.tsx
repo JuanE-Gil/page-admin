@@ -30,11 +30,13 @@ const Login = () => {
 
     try {
       const response = await axiosInstance.post("/login", request);
-      tokenUtils.setToken(response.data.token);
-      if (response.data.Estado == "Activo" && response.data.Rol == "Rol") {
-        window.location.href = "/";
+      if (response.data.Rol == "ADMIN") {
+        if (response.data.Estado == "Activo") {
+          tokenUtils.setToken(response.data.token);
+          window.location.href = "/";
+        }
       } else {
-        alert("Cuenta Inactiva, consultar con un administrador")
+        alert("Cuenta Inactiva, consultar con un administrador");
       }
     } catch (error) {
       if (error.response) {
