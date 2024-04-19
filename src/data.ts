@@ -57,6 +57,12 @@ export const menu = [
           url: "/mensajes",
           icon: "post2.svg",
         },
+        {
+          id: 6,
+          title: "Reclamos",
+          url: "/recla_suge",
+          icon: "post2.svg",
+        },
       ],
     },
     // {
