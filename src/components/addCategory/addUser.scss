@@ -1,0 +1,74 @@
+@import "../../styles/variables.scss";
+
+.addUser {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.724);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .modal {
+    padding: 50px;
+    border-radius: 10px;
+    background-color: $main-bg;
+    position: relative;
+
+    h1 {
+      margin-bottom: 40px;
+      font-size: 24px;
+      color: $soft-color;
+    }
+
+    .close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    form {
+      display: flex;
+      flex-wrap: wrap;
+      max-width: 500px;
+      justify-content: space-between;
+
+      .item {
+        width: 48%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 20px;
+
+        label {
+          font-size: 14px;
+          color: $soft-color;
+        }
+
+        input,
+        select {
+          padding: 10px;
+          background-color: $soft-color;
+          color: $dark-color;
+          outline: none;
+          border: 1px solid $soft-color;
+          border-radius: 3px;
+        }
+      }
+
+      button {
+        width: 100%;
+        padding: 10px;
+        border: none;
+        background-color: $soft-color;
+        color: $dark-color;
+        cursor: pointer;
+      }
+    }
+  }
+}

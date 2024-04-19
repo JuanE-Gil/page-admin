@@ -6,9 +6,6 @@ import { registerUser } from "../../axiosConfig";
 
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { IconButton, InputAdornment } from "@mui/material";
-import { Navigate } from "react-router-dom";
-
-
 
 const AddUser = ({ setOpenAddUser, onUserAdded }) => {
   const [username, setUsername] = useState("")

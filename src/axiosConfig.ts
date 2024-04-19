@@ -27,7 +27,9 @@ const axiosInstance = axios.create({
 });
 
 const setAuthToken = (authToken: string) => {
-  axiosInstance.defaults.headers.common = createHeaders(authToken) as AxiosRequestHeaders;
+  axiosInstance.defaults.headers.common = createHeaders(
+    authToken
+  ) as AxiosRequestHeaders;
 };
 
 const get = async <T>(url: string): Promise<T> => {
@@ -48,7 +50,7 @@ const post = async <T>(
 
 const put = async <T>(url: string, data?: any): Promise<T> => {
   const headers = createHeaders(authToken);
-  const response = await axiosInstance.put<T>(url, data,  { headers });
+  const response = await axiosInstance.put<T>(url, data, { headers });
   return response.data;
 };
 
@@ -72,6 +74,20 @@ const registerUser = async (formData: FormData): Promise<AxiosResponse> => {
   }
 };
 
+const registerCategory = async (formData: FormData): Promise<AxiosResponse> => {
+  try {
+    const response = await post(
+      "/categoria/registrar",
+      formData,
+      "multipart/form-data"
+    );
+    return response;
+  } catch (error) {
+    console.error("Error al registrar categoria:", error);
+    return Promise.reject(error);
+  }
+};
+
 const registerAdmin = async (formData: FormData): Promise<AxiosResponse> => {
   try {
     const response = await post(
@@ -86,4 +102,13 @@ const registerAdmin = async (formData: FormData): Promise<AxiosResponse> => {
   }
 };
 
-export { setAuthToken, get, post, put, del, registerUser, registerAdmin };
+export {
+  setAuthToken,
+  get,
+  post,
+  put,
+  del,
+  registerUser,
+  registerAdmin,
+  registerCategory,
+};
