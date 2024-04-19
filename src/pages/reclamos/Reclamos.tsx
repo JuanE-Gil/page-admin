@@ -95,17 +95,17 @@ const Reclamos = () => {
     <>
       <div className="sales">
         <div className="info">
-          <h1>Listado de Ventas</h1>
+          <h1>Reclamos y Sugerencias</h1>
         </div>
         {isLoading ? (
           <div className="loading">
-            <p>Cargando ventas disponibles...</p>
+            <p>Cargando Reclamos disponibles...</p>
             <img src="/1.png" alt="" />
           </div>
         ) : data.length > 0 ? (
           <DataTable slug="sales" columns={columns} rows={data} />
         ) : (
-          <p>No se han encontrado ventas disponibles.</p>
+          <p>No se han encontrado reclamos disponibles.</p>
         )}
       </div>
     </>
