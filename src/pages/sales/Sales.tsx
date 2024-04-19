@@ -16,7 +16,7 @@ const Sales = () => {
       try {
         const response = await get("/venta");
         const saleData = response.data;
-        console.log(response)
+        console.log(response);
         setData(
           saleData.map((sale) => ({
             id: sale.id_venta,
@@ -25,7 +25,8 @@ const Sales = () => {
             creation_date: sale.fecha_creacion,
             price: sale.precio_auto,
             completion_date: sale.fecha_finalizacion,
-            status: sale.estado
+            completion_date_2: sale.fecha_finalizacion,
+            status: sale.estado,
           }))
         );
         console.log(saleData);
@@ -57,7 +58,7 @@ const Sales = () => {
     {
       field: "creation_date",
       type: "date",
-      headerName: "Fecha Creacion",
+      headerName: "Fecha de Creacion",
       width: 150,
       valueFormatter: (params) => {
         const dateFormatter = new Intl.DateTimeFormat("es-PE", {
@@ -85,10 +86,25 @@ const Sales = () => {
       },
     },
     {
-      field: "completion_date",
+      field: "completion_date_2",
       type: "boolean",
       headerName: "Vendido",
       width: 200,
+    },
+    {
+      field: "completion_date",
+      type: "date",
+      headerName: "Fecha de Finalizacion",
+      width: 150,
+      valueFormatter: (params) => {
+        const dateFormatter = new Intl.DateTimeFormat("es-PE", {
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+        });
+
+        return dateFormatter.format(new Date(params.value));
+      },
     },
     {
       field: "status",
